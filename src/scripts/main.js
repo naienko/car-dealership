@@ -97,11 +97,10 @@ popularModel(cardealers);
 
 // Which bank provided the most loans to our customers?
 
-const getTheMostOf = (array, key) => {
+const getTheMostOf = (array) => {
     const hashtable = [];
     array.forEach(element => {
-        console.log(element["credit][credit_provider"]);
-        const currentKey = element[key];
+        const currentKey = element.credit.credit_provider;
         if (hashtable.hasOwnProperty(currentKey)) {
             hashtable[currentKey]++;
         } else {
@@ -112,7 +111,7 @@ const getTheMostOf = (array, key) => {
     fullHash.sort((a,b) => {
         return hashtable[b] - hashtable[a];
     });
-    console.log(hashtable[0]);
+    console.log(fullHash[0]);
 };
 
-getTheMostOf(cardealers, "credit.credit_provider");
+getTheMostOf(cardealers);
