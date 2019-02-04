@@ -10,7 +10,10 @@ console.log(profits);
 const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
 let eachMonthProfit = [];
 months.forEach(month => {
-    const thisMonthProfit = cardealers.filter(car => car.purchase_date.includes(`-${month}-`)).map(car => car.gross_profit);
+    const thisMonthProfit = cardealers
+        .filter(car => car.purchase_date.includes("2017"))
+        .filter(car => car.purchase_date.includes(`-${month}-`))
+        .map(car => car.gross_profit);
     let monthObject = {};
     monthObject.month = month;
     monthObject.profit = thisMonthProfit;
@@ -25,7 +28,7 @@ eachMonthProfit.forEach(element => {
 });
 eachMonthProfit.sort((a,b) => b.totalprofit - a.totalprofit);
 
-console.log(eachMonthProfit[0]);
+console.log(eachMonthProfit);
 
 // Which salesperson sold the most cars?
 
@@ -50,5 +53,29 @@ const topSalesperson = array => {
 topSalesperson(cardealers);
 
 // Which salesperson made the most profit?
+const biggestProfit = array => {
+    const salespeople = [];
+    array.forEach(element => {
+        const currentKey = element.sales_agent.last_name;
+        if (salespeople.hasOwnProperty(currentKey)) {
+            salespeople[currentKey] += element.gross_profit;
+        } else {
+            salespeople[currentKey] = 0;
+            salespeople[currentKey] += element.gross_profit;
+        };
+    });
+    const lastNames = Object.keys(salespeople);
+    lastNames.sort((a,b) => {
+        return salespeople[b] - salespeople[a];
+    });
+    const mostProfit = cardealers.find(person => person.sales_agent.last_name === lastNames[0]);
+    console.log(`The person who made the most profit is ${mostProfit.sales_agent.first_name} ${mostProfit.sales_agent.last_name}. They sold $${salespeople[lastNames[0]]} worth of cars.`);
+};
+
+biggestProfit(cardealers);
+
 // Which model was the most popular?
+
+
+
 // Which bank provided the most loans to our customers?
